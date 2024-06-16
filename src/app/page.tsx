@@ -6,7 +6,7 @@ import { Sidebar } from "@/components/Layout/Sidebar";
 import { categories } from "../data/home";
 import { VideoGridItem } from "@/components/Video/VideoGridItem";
 
-export default function Home() {
+function Home() {
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
 
   return (
@@ -31,3 +31,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Home;

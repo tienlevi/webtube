@@ -1,47 +1,43 @@
-"use client";
-import Link from "next/link";
-import { listData } from "@/hooks/useData";
-import SkeletonHome from "../Skeleton/SkeletonHome";
-import List from "@/interface/list";
+import useSearchQuery from "@/hooks/useSearchQuery";
 import { formatViews } from "@/utils/format";
+import Link from "next/link";
+import List from "@/interface/list";
+import SkeletonSearch from "../Skeleton/SkeletonSearch";
 
-export function VideoGridItem() {
-  const { data, isLoading } = listData();
+function SearchFilter() {
+  const { data, isLoading } = useSearchQuery();
 
   return (
     <>
       {isLoading ? (
         <>
-          <SkeletonHome />
-          <SkeletonHome />
-          <SkeletonHome />
-          <SkeletonHome />
-          <SkeletonHome />
-          <SkeletonHome />
-          <SkeletonHome />
-          <SkeletonHome />
-          <SkeletonHome />
-          <SkeletonHome />
-          <SkeletonHome />
-          <SkeletonHome />
+          <SkeletonSearch />
+          <SkeletonSearch />
+          <SkeletonSearch />
+          <SkeletonSearch />
+          <SkeletonSearch />
+          <SkeletonSearch />
         </>
       ) : (
-        data?.map((item: List, index: number) => (
-          <div key={index} className="flex flex-col">
-            <a href={`/watch/${item.url}`} className="relative aspect-video">
+        data?.items?.map((item: List, index: number) => (
+          <div key={index} className="flex flex-row my-4">
+            <a
+              href={`/watch/${item.url}`}
+              className="w-[40%] h-fit relative aspect-video rounded-[12px]"
+            >
               <img
-                className={`block w-full h-full object-cover relative`}
+                className={`w-full h-fit object-cover rounded-[12px] relative`}
                 src={item.thumbnail}
               />
             </a>
-            <div className="flex relative mt-2">
+            <div className="w-[60%] flex relative ml-4">
               <Link href={`/channel/${item.uploaderUrl}`} className="w-12 h-12">
                 <img
                   src={item.uploaderAvatar}
-                  className="w-12 h-12 rounded-full"
+                  className="w-full rounded-full"
                 />
               </Link>
-              <div className="w-full flex flex-col ml-2">
+              <div className="flex flex-col ml-2">
                 <Link
                   href={`/watch/${item.url}`}
                   className="font-bold whitespace-normal overflow-hidden line-clamp-2 text-ellipsis"
@@ -65,3 +61,5 @@ export function VideoGridItem() {
     </>
   );
 }
+
+export default SearchFilter;
