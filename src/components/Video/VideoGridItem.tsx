@@ -28,30 +28,33 @@ export function VideoGridItem() {
       ) : (
         data?.map((item: List, index: number) => (
           <div key={index} className="flex flex-col">
-            <a href={`/watch/${item.url}`} className="relative aspect-video">
+            <Link
+              href={item.url}
+              className="relative aspect-video rounded-[12px]"
+            >
               <img
-                className={`block w-full h-full object-cover relative`}
+                className={`block w-full h-full object-cover relative rounded-[12px]`}
                 src={item.thumbnail}
               />
-            </a>
+            </Link>
             <div className="flex relative mt-2">
-              <Link href={`/channel/${item.uploaderUrl}`} className="w-12 h-12">
+              <Link
+                href={`/channel/${item.uploaderUrl}`}
+                className="w-12 h-12 aspect-video"
+              >
                 <img
                   src={item.uploaderAvatar}
-                  className="w-12 h-12 rounded-full"
+                  className="w-full h-fw-full rounded-full"
                 />
               </Link>
               <div className="w-full flex flex-col ml-2">
                 <Link
-                  href={`/watch/${item.url}`}
+                  href={`/watch?v=${item.url}`}
                   className="font-bold whitespace-normal overflow-hidden line-clamp-2 text-ellipsis"
                 >
                   {item.title}
                 </Link>
-                <Link
-                  href={`/channel/${item.uploaderUrl}`}
-                  className="text-secondary-text text-sm"
-                >
+                <Link href={item.url} className="text-secondary-text text-sm">
                   {item.uploaderName}
                 </Link>
                 <div className="text-secondary-text text-sm">

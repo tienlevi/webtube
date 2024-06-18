@@ -21,15 +21,15 @@ function SearchFilter() {
       ) : (
         data?.items?.map((item: List, index: number) => (
           <div key={index} className="flex flex-row my-4">
-            <a
-              href={`/watch/${item.url}`}
+            <Link
+              href={item.url}
               className="w-[40%] h-fit relative aspect-video rounded-[12px]"
             >
               <img
                 className={`w-full h-fit object-cover rounded-[12px] relative`}
                 src={item.thumbnail}
               />
-            </a>
+            </Link>
             <div className="w-[60%] flex relative ml-4">
               <Link href={`/channel/${item.uploaderUrl}`} className="w-12 h-12">
                 <img
@@ -39,7 +39,7 @@ function SearchFilter() {
               </Link>
               <div className="flex flex-col ml-2">
                 <Link
-                  href={`/watch/${item.url}`}
+                  href={item.url}
                   className="font-bold whitespace-normal overflow-hidden line-clamp-2 text-ellipsis"
                 >
                   {item.title}

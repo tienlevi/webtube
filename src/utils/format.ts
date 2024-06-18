@@ -1,5 +1,15 @@
 import { DIVISIONS } from "@/data/division";
 
+export function formatSubscribe(subscribe: number) {
+  if (subscribe >= 1000000) {
+    return `${(subscribe / 1000000).toFixed(1)}M`;
+  } else if (subscribe >= 1000) {
+    return `${(subscribe / 1000).toFixed(1)}K`;
+  } else {
+    return subscribe;
+  }
+}
+
 export function formatViews(views: number) {
   if (views >= 1000000) {
     return `${(views / 1000000).toFixed(1)}M`;
@@ -40,4 +50,9 @@ export function formatTimeAgo(date: Date) {
     }
     duration /= division.amount;
   }
+}
+
+export function formatDate(date: string) {
+  const newDate = new Date(date);
+  return newDate.toDateString();
 }
