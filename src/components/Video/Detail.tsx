@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo } from "react";
 import { Bell, ChevronDown, ThumbsUp, ThumbsDown, Forward } from "lucide-react";
 import Link from "next/link";
 import { detailData } from "@/hooks/useData";
@@ -17,10 +17,9 @@ interface Props {
 
 function Detail({ id }: Props) {
   const { data } = detailData(id);
-  const [showDetail, setShowDetail] = useState<boolean>(false);
 
   return (
-    <div className="mt-[-200px]">
+    <div className="relative mt-4">
       <Section className="">
         <div className="flex">
           <div className="w-[65%] px-3">
