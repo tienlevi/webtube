@@ -108,7 +108,7 @@ function Detail({ id }: Props) {
                     alt=""
                     className="relative w-[200px] h-[120px] object-cover rounded-[8px]"
                   />
-                  <div className="flex items-center absolute bottom-[10px] right-[20px] bg-[rgba(0,0,0,0.5)] h-[20px] px-[7px] rounded-[4px] text-white z-30">
+                  <div className="flex items-center absolute bottom-[10px] right-[20px] bg-[rgba(0,0,0,0.5)] h-[20px] px-[7px] rounded-[4px] text-white">
                     {formatDuration(item.duration as any)}
                   </div>
                 </Link>

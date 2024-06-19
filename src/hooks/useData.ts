@@ -1,15 +1,15 @@
-import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getLists } from "@/services/list";
-import { getChannels } from "@/services/channel";
+import { getChannel } from "@/services/channel";
 import { getDetail } from "@/services/detail";
 import Details from "@/interface/detail";
+import Channel from "@/interface/channel";
 
 export const channelData = (id: string) => {
-  const { data, ...rest } = useQuery({
+  const { data, ...rest } = useQuery<Channel>({
     queryKey: ["data"],
     queryFn: async () => {
-      return await getChannels(id);
+      return await getChannel(id);
     },
   });
 

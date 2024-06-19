@@ -36,15 +36,12 @@ export function VideoGridItem() {
                 className={`block w-full h-full object-cover relative rounded-[12px]`}
                 src={item.thumbnail}
               />
-              <div className="flex items-center absolute bottom-[10px] right-[10px] bg-[rgba(0,0,0,0.5)] h-[20px] px-[7px] rounded-[4px] text-white z-30">
+              <div className="flex items-center absolute bottom-[10px] right-[10px] bg-[rgba(0,0,0,0.5)] h-[20px] px-[7px] rounded-[4px] text-white">
                 {formatDuration(item.duration as any)}
               </div>
             </Link>
             <div className="flex relative mt-2">
-              <Link
-                href={`/channel/${item.uploaderUrl}`}
-                className="w-12 h-12 aspect-video"
-              >
+              <Link href={item.uploaderUrl} className="w-12 h-12 aspect-video">
                 <img
                   src={item.uploaderAvatar}
                   className="w-full h-fw-full rounded-full"
