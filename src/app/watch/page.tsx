@@ -10,11 +10,9 @@ function Watch() {
   return (
     <div className="max-h-screen flex flex-col">
       <Header />
-      <div className="overflow-auto">
-        <div className="overflow-x-hidden aspect-video pb-4">
-          <Embed id={id} />
-          <Detail id={id} />
-        </div>
+      <div className="pb-4">
+        <Embed id={id} />
+        <Detail id={id} />
       </div>
     </div>
   );
