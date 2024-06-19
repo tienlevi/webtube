@@ -1,9 +1,5 @@
 {
-  "extends": [
-    "next/core-web-vitals",
-    "next/next/no-img-element",
-    "jsx-a11y/alt-text"
-  ],
+  "extends": ["next/core-web-vitals", "jsx-a11y/alt-text"],
   "rules": {
     "jsx-a11y/alt-text": [
       2,
