@@ -3,7 +3,12 @@ import { Bell, ChevronDown, ThumbsUp, ThumbsDown, Forward } from "lucide-react";
 import Link from "next/link";
 import { detailData } from "@/hooks/useData";
 import Section from "../Section/Section";
-import { formatSubscribe, formatViews } from "@/utils/format";
+import {
+  formatDate,
+  formatDuration,
+  formatSubscribe,
+  formatViews,
+} from "@/utils/format";
 import { Button } from "../Button/Button";
 
 interface Props {
@@ -85,7 +90,10 @@ function Detail({ id }: Props) {
               </div>
             </div>
             <div className="bg-[#F2F2F2] my-4 p-4 rounded-[12px]">
-              <div className="font-semibold">375,206 views Mar 28, 2020</div>
+              <div className="font-semibold">
+                {formatViews(data?.views as number)} Views • {""}
+                {formatDate(data?.uploadDate as any)}
+              </div>
               <div className="my-6">{data?.title}</div>
               <div
                 dangerouslySetInnerHTML={{ __html: data?.description ?? "" }}
@@ -93,14 +101,17 @@ function Detail({ id }: Props) {
             </div>
           </div>
           <div className="w-[35%]">
-            {data?.relatedStreams.map((item, index: number) => (
+            {data?.relatedStreams?.map((item, index: number) => (
               <div key={index} className="flex items-start my-2">
-                <Link href={item.url} className="w-[40%] block">
+                <Link href={item.url} className="relative w-[40%] block">
                   <img
                     src={item.thumbnail}
                     alt=""
-                    className="w-[200px] h-[120px] object-cover rounded-[8px]"
+                    className="relative w-[200px] h-[120px] object-cover rounded-[8px]"
                   />
+                  <div className="flex items-center absolute bottom-[10px] right-[20px] bg-[rgba(0,0,0,0.5)] h-[20px] px-[7px] rounded-[4px] text-white z-30">
+                    {formatDuration(item.duration as any)}
+                  </div>
                 </Link>
                 <div className="w-[60%] ml-2">
                   <Link

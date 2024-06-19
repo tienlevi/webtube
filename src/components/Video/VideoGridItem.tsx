@@ -3,7 +3,7 @@ import Link from "next/link";
 import { listData } from "@/hooks/useData";
 import SkeletonHome from "../Skeleton/SkeletonHome";
 import List from "@/interface/list";
-import { formatViews } from "@/utils/format";
+import { formatDuration, formatViews } from "@/utils/format";
 
 export function VideoGridItem() {
   const { data, isLoading } = listData();
@@ -36,6 +36,9 @@ export function VideoGridItem() {
                 className={`block w-full h-full object-cover relative rounded-[12px]`}
                 src={item.thumbnail}
               />
+              <div className="flex items-center absolute bottom-[10px] right-[10px] bg-[rgba(0,0,0,0.5)] h-[20px] px-[7px] rounded-[4px] text-white z-30">
+                {formatDuration(item.duration as any)}
+              </div>
             </Link>
             <div className="flex relative mt-2">
               <Link

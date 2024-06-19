@@ -1,5 +1,5 @@
 import useSearchQuery from "@/hooks/useSearchQuery";
-import { formatViews } from "@/utils/format";
+import { formatDuration, formatViews } from "@/utils/format";
 import Link from "next/link";
 import List from "@/interface/list";
 import SkeletonSearch from "../Skeleton/SkeletonSearch";
@@ -29,6 +29,9 @@ function SearchFilter() {
                 className={`w-full h-fit object-cover rounded-[12px] relative`}
                 src={item.thumbnail}
               />
+              <div className="flex items-center absolute bottom-[10px] right-[10px] bg-[rgba(0,0,0,0.5)] h-[20px] px-[7px] rounded-[4px] text-white z-30">
+                {formatDuration(item.duration as any)}
+              </div>
             </Link>
             <div className="w-[60%] flex relative ml-4">
               <Link href={`/channel/${item.uploaderUrl}`} className="w-12 h-12">
