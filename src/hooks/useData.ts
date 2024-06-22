@@ -3,7 +3,7 @@ import { getLists } from "@/services/list";
 import { getChannel } from "@/services/channel";
 import { getDetail } from "@/services/detail";
 import Details from "@/interface/detail";
-import Channel from "@/interface/channel";
+import { Channel } from "@/interface/channel";
 
 export const channelData = (id: string) => {
   const { data, ...rest } = useQuery<Channel>({

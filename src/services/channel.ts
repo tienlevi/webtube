@@ -9,9 +9,10 @@ export const getChannel = async (id: string) => {
   }
 };
 
-export const getChannelName = async (q: string) => {
+export const getChannelShorts = async (data: string) => {
   try {
-    const response = await baseUrl.get(`/c/${q}`);
+    const response = await baseUrl.get(`/channels/tabs?data=${data}`);
+    return response.data;
   } catch (error) {
     console.log(error);
   }

@@ -22,7 +22,7 @@ function SearchFilter() {
         data?.items?.map((item: List, index: number) => (
           <div key={index} className="flex flex-row my-4">
             <Link
-              href={item.url}
+              href={`${item.url}`}
               className="w-[40%] h-fit relative aspect-video rounded-[12px]"
             >
               <img
@@ -34,7 +34,7 @@ function SearchFilter() {
               </div>
             </Link>
             <div className="w-[60%] flex relative ml-4">
-              <Link href={item.uploaderUrl} className="w-12 h-12">
+              <Link href={`${item.uploaderUrl}`} className="w-12 h-12">
                 <img
                   src={item.uploaderAvatar}
                   className="w-full rounded-full"
@@ -42,13 +42,13 @@ function SearchFilter() {
               </Link>
               <div className="flex flex-col ml-2">
                 <Link
-                  href={item.url}
+                  href={`${item.url}`}
                   className="font-bold whitespace-normal overflow-hidden line-clamp-2 text-ellipsis"
                 >
                   {item.title}
                 </Link>
                 <Link
-                  href={`/channel/${item.uploaderUrl}`}
+                  href={`${item.uploaderUrl}`}
                   className="text-secondary-text text-sm"
                 >
                   {item.uploaderName}

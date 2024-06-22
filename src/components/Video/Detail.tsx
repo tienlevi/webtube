@@ -27,7 +27,7 @@ function Detail({ id }: Props) {
             <div className="flex items-center justify-between border-b border-b-[#F2F2F2]">
               <div className="flex items-center">
                 <Link
-                  href={`/channel/${data?.uploaderUrl}`}
+                  href={`${data?.uploaderUrl}`}
                   className="flex relative mt-2"
                 >
                   <div className="w-12 h-12 aspect-video">

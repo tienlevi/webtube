@@ -25,6 +25,27 @@ export interface Channel {
       isShort: boolean;
     }
   ];
+  tabs: [{ name: string; data: string }];
 }
 
-export default Channel;
+export interface Shorts {
+  nextpage: null;
+  content: [
+    {
+      duration: number;
+      isShort: boolean;
+      shortDescription: null;
+      thumbnail: string;
+      title: string;
+      type: string;
+      uploaded: number;
+      uploadedDate: string;
+      uploaderAvatar: string;
+      uploaderName: string;
+      uploaderUrl: string;
+      uploaderVerified: boolean;
+      url: string;
+      views: number;
+    }
+  ];
+}
