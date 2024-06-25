@@ -4,7 +4,6 @@ import { CategoryPills } from "@/components/Category/CategoryPills";
 import { Header } from "@/components/Layout/Header";
 import { categories } from "@/data/home";
 import { Sidebar } from "@/components/Layout/Sidebar";
-import { useSearchParams } from "next/navigation";
 import SearchFilter from "@/components/Search/SearchFilter";
 
 function Search() {

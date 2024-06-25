@@ -4,6 +4,7 @@ export interface List {
   shortDescription: string;
   thumbnail: string;
   title: string;
+  name: string;
   type: string;
   uploaded: string;
   uploadedDate: string;
@@ -13,6 +14,8 @@ export interface List {
   uploaderVerified: boolean;
   url: string;
   views: number;
+  description: string;
+  subscribers: number;
 }
 
 export default List;
