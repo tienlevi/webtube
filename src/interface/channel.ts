@@ -37,6 +37,7 @@ export interface Shorts {
       shortDescription: null;
       thumbnail: string;
       title: string;
+      name: string;
       type: string;
       uploaded: number;
       uploadedDate: string;
@@ -46,6 +47,7 @@ export interface Shorts {
       uploaderVerified: boolean;
       url: string;
       views: number;
+      videos: number;
     }
   ];
 }

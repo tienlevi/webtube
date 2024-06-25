@@ -61,7 +61,7 @@ function SearchFilter() {
               </div>
             </div>
           ) : (
-            <Link href={`${item.uploaderUrl}`} className="flex" key={index}>
+            <Link href={`${item.url}`} className="flex" key={index}>
               <div className="w-[20%] h-fit aspect-video">
                 <img
                   className={`w-full h-fit object-cover rounded-full relative`}
