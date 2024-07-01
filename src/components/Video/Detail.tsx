@@ -1,4 +1,3 @@
-import { memo } from "react";
 import { Bell, ChevronDown, ThumbsUp, ThumbsDown, Forward } from "lucide-react";
 import Link from "next/link";
 import { detailData } from "@/hooks/useData";
@@ -138,4 +137,4 @@ function Detail({ id }: Props) {
   );
 }
 
-export default memo(Detail);
+export default Detail;
