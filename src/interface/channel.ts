@@ -51,3 +51,25 @@ export interface Shorts {
     }
   ];
 }
+
+export interface NextPage {
+  nextpage: string;
+  relatedStreams: [
+    {
+      url: string;
+      type: string;
+      title: string;
+      thumbnail: string;
+      uploaderName: string;
+      uploaderUrl: string;
+      uploaderAvatar: null;
+      uploadedDate: string;
+      shortDescription: string;
+      duration: number;
+      views: number;
+      uploaded: number;
+      uploaderVerified: boolean;
+      isShort: boolean;
+    }
+  ];
+}

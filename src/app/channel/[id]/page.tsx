@@ -1,8 +1,12 @@
 "use client";
-import { useState } from "react";
-import ChannelDetail from "@/components/Channel/ChannelDetail";
 import { Header } from "@/components/Layout/Header";
 import { Sidebar } from "@/components/Layout/Sidebar";
+import dynamic from "next/dynamic";
+
+const ChannelDetail = dynamic(
+  () => import("@/components/Channel/ChannelDetail"),
+  { ssr: false }
+);
 
 function Channel({ params }: any) {
   return (

@@ -17,3 +17,14 @@ export const getChannelTabs = async (data: string) => {
     console.log(error);
   }
 };
+
+export const loadMoreVideos = async (id: string, nextpage: string) => {
+  try {
+    const response = await baseUrl.get(
+      `/nextpage/channel/${id}?nextpage=${nextpage}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getLists } from "@/services/list";
-import { getChannel } from "@/services/channel";
+import { getChannel, getChannelTabs } from "@/services/channel";
 import { getDetail } from "@/services/detail";
 import Details from "@/interface/detail";
 import { Channel } from "@/interface/channel";
@@ -36,4 +36,13 @@ export const detailData = (id: string) => {
   });
 
   return { data, ...rest };
+};
+
+export const channelTabsData = (queryData: string) => {
+  return useQuery({
+    queryKey: ["data"],
+    queryFn: async () => {
+      return await getChannelTabs(queryData);
+    },
+  });
 };

@@ -1,5 +1,5 @@
 import { channelData } from "@/hooks/useData";
-import { useState, memo, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { Play } from "lucide-react";
 import Section from "../Section/Section";
 import Banner from "../Banner/Banner";
@@ -10,8 +10,13 @@ import {
   formatViews,
 } from "@/utils/format";
 import Link from "next/link";
-import { getChannelTabs } from "@/services/channel";
-import { Shorts } from "@/interface/channel";
+import { getChannelTabs, loadMoreVideos } from "@/services/channel";
+import { NextPage } from "@/interface/channel";
+import { CircleLoader } from "react-spinners";
+import Shorts from "./Shorts";
+import Livestream from "./Livestream";
+import Playlists from "./Playlists";
+import { tabs } from "@/constants";
 
 interface Props {
   id: string;
@@ -19,18 +24,40 @@ interface Props {
 
 function ChannelDetail({ id }: Props) {
   const { data } = channelData(id);
-  const [tabItem, setTabItem] = useState<Shorts>();
   const [tab, setTab] = useState<string>("");
+  const [nextPage, setNextPage] = useState<NextPage>();
+  const element = useRef<HTMLDivElement>(null);
+
+  const getNextVideos = async () => {
+    const response = await loadMoreVideos(id, data?.nextpage!);
+    console.log(response);
+    setNextPage(response);
+  };
+
+  const tabFilter = data?.tabs?.find((item) => item.name === tab);
 
   useEffect(() => {
-    const getData = async () => {
-      const tabFilter = data?.tabs.find((item) => item.name === tab);
-      const response = await getChannelTabs(tabFilter?.data as any);
-      setTabItem(response);
-    };
-    getData();
-  }, [tab]);
-  console.log(tabItem);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting === false) {
+            getNextVideos();
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: "0px" }
+    );
+
+    observer.observe(element.current as any);
+
+    return () => observer.unobserve(element.current as any);
+  }, [data?.nextpage]);
+
+  const listVideos = [
+    ...(data?.relatedStreams ?? []),
+    ...(nextPage?.relatedStreams ?? []),
+  ];
 
   return (
     <div className="block">
@@ -50,62 +77,32 @@ function ChannelDetail({ id }: Props) {
             </span>
           </div>
         </div>
-        <div className="flex items-center w-full mt-3 px-2 border-b border-[#9b9b9b]">
-          <div
-            className={`relative mr-10 text-[15px] text-[#606060] cursor-pointer justify-start h-[40px] ${
-              tab === "" &&
-              "text-black before:content-[''] before:absolute before:bottom-0 before:w-full hover:before:h-[3px] before:h-[3px] before:bg-black"
-            }`}
-            onClick={() => setTab("")}
-          >
-            Videos
-          </div>
-          <div
-            className={`relative mr-10 text-[15px] text-[#606060] cursor-pointer justify-start h-[40px] ${
-              tab === "shorts" &&
-              "text-black before:content-[''] before:absolute before:bottom-0 before:w-full before:h-[3px] before:bg-black"
-            }`}
-            onClick={() => setTab("shorts")}
-          >
-            Shorts
-          </div>
-          <div
-            className={`relative mr-10 text-[15px] text-[#606060] cursor-pointer justify-start h-[40px] ${
-              tab === "livestreams" &&
-              "text-black before:content-[''] before:absolute before:bottom-0 before:w-full before:h-[3px] before:bg-black"
-            }`}
-            onClick={() => setTab("livestreams")}
-          >
-            Live
-          </div>
-          <div
-            className={`relative mr-10 text-[15px] text-[#606060] cursor-pointer justify-start h-[40px] ${
-              tab === "playlists" &&
-              "text-black before:content-[''] before:absolute before:bottom-0 before:w-full before:h-[3px] before:bg-black"
-            }`}
-            onClick={() => setTab("playlists")}
-          >
-            Playlists
-          </div>
-          <div
-            className={`relative mr-10 text-[15px] text-[#606060] cursor-pointer font-medium justify-start h-[40px] ${
-              tab === "about" &&
-              "text-black before:content-[''] before:absolute before:bottom-0 before:w-full before:h-[3px] before:bg-black"
-            }`}
-            onClick={() => setTab("about")}
-          >
-            About
-          </div>
+        <div
+          ref={element}
+          className="flex items-center w-full mt-3 px-2 border-b border-[#9b9b9b]"
+        >
+          {tabs.map((item, index) => (
+            <div
+              key={index}
+              className={`relative mr-10 text-[15px] text-[#606060] cursor-pointer justify-start h-[40px] ${
+                tab === item.item &&
+                "text-black before:content-[''] before:absolute before:bottom-0 before:w-full hover:before:h-[3px] before:h-[3px] before:bg-black"
+              }`}
+              onClick={() => setTab(item.item)}
+            >
+              {item.title}
+            </div>
+          ))}
         </div>
         <div className="grid grid-cols-4 mt-4">
-          {tab === "" &&
-            data?.relatedStreams?.map((item, index: number) => (
+          {tab === "" && listVideos.length > 0 ? (
+            listVideos?.map((item, index: number) => (
               <Link href={item.url} key={index} className="block px-2 my-5">
-                <div className="relative">
+                <div className="relative w-full">
                   <img
                     src={item.thumbnail}
                     alt=""
-                    className="rounded-[12px] relative"
+                    className="rounded-[12px] w-full relative"
                   />
                   <div className="flex items-center absolute bottom-[10px] right-[10px] bg-[rgba(0,0,0,0.5)] h-[20px] px-[7px] rounded-[4px] text-white">
                     {formatDuration(item.duration as any)}
@@ -119,69 +116,13 @@ function ChannelDetail({ id }: Props) {
                   {formatDate(item.uploaded as any)}
                 </div>
               </Link>
-            ))}
-          {tab === "shorts" && (
-            <>
-              {tabItem?.content?.map(
-                (item, index: number) =>
-                  item.isShort === true && (
-                    <Link key={index} className="px-2 mb-5" href={item.url}>
-                      <div className="aspect-video">
-                        <img
-                          src={item.thumbnail}
-                          alt=""
-                          className="w-full h-[500px] object-cover rounded-[15px]"
-                        />
-                      </div>
-                      <div className="mt-2 text-black text-[17px] font-medium whitespace-normal overflow-hidden line-clamp-2 text-ellipsis">
-                        {item.title}
-                      </div>
-                    </Link>
-                  )
-              )}
-            </>
+            ))
+          ) : (
+            <CircleLoader />
           )}
-          {tab === "livestreams" &&
-            tabItem?.content.map((item, index: number) => (
-              <Link href={item.url} key={index} className="block px-2 my-5">
-                <div className="relative">
-                  <img
-                    src={item.thumbnail}
-                    alt=""
-                    className="rounded-[12px] relative"
-                  />
-                  <div className="flex items-center absolute bottom-[10px] right-[10px] bg-[rgba(0,0,0,0.5)] h-[20px] px-[7px] rounded-[4px] text-white">
-                    {formatDuration(item.duration as any)}
-                  </div>
-                </div>
-                <div className="mt-1 text-[14px] font-medium whitespace-normal overflow-hidden line-clamp-2 text-ellipsis">
-                  {item.title}
-                </div>
-              </Link>
-            ))}
-          {tab === "playlists" &&
-            tabItem?.content.map((item, index: number) => (
-              <Link href={item.url} key={index} className="block px-2 my-5">
-                <div className="relative">
-                  <img
-                    src={item.thumbnail}
-                    alt=""
-                    className="rounded-[12px] relative"
-                  />
-                  <div className="group absolute top-0 bottom-0 right-0 left-0 rounded-[12px] hover:bg-[rgba(0,0,0,0.6)]">
-                    <span className="hidden absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] text-white font-medium uppercase group-hover:flex">
-                      <Play /> <span className="ml-1">Play all</span>
-                    </span>
-                  </div>
-                  <div className="flex items-center absolute bottom-[10px] right-[10px] bg-[rgba(0,0,0,0.5)] h-[20px] px-[7px] rounded-[4px] text-white">
-                    {item.videos} Videos
-                  </div>
-                </div>
-                <div className="mt-2 text-[14px] font-medium whitespace-normal overflow-hidden line-clamp-2 text-ellipsis">
-                  {item.name}
-                </div>
-              </Link>
-            ))}
+          <Shorts tab="shorts" tabQuery={tabFilter?.name!} />
+          <Livestream tab="livestreams" tabQuery={tabFilter?.name!} />
+          <Playlists tab="playlists" tabQuery={tabFilter?.name!} />
           {tab === "about" && (
             <div>
               <p>{data?.description}</p>
@@ -193,4 +134,4 @@ function ChannelDetail({ id }: Props) {
   );
 }
 
-export default memo(ChannelDetail);
+export default ChannelDetail;
